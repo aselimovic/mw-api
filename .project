@@ -52,4 +52,15 @@
 		<nature>org.jboss.tools.jst.web.kb.kbnature</nature>
 		<nature>org.jboss.tools.jsf.jsfnature</nature>
 	</natures>
+	<filteredResources>
+		<filter>
+			<id>1597503904898</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-MethodConstraintViolationExceptionMapper.java</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>

@@ -104,7 +104,11 @@
       </snapshots>
       <id>internal-repository</id>
       <name>db-dev repository</name>
-      <url>http://db-dev.qssbh.com:8888/</url>
+      <!--
+      	  Public IP address for the private Maven repository on "db-dev":
+      	  109.205.34.25
+      -->
+      <url>http://109.205.34.25:8888/</url>
     </repository>
   </repositories>
   <dependencies>
@@ -127,7 +131,17 @@
 		<version>3.0.7.Final</version>
 		<scope>provided</scope>
 	</dependency>
-
+	<!--
+		Upgrading from Resteasy 2 to Resteasy 3 - Chapter 4. Validation (p. 17)
+		In Resteasy, validation is implemented in the resteasy-validator-provider-11 module, and
+		@ValidateRequest is no longer relevant.
+	 -->
+	<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-validator-provider-11 -->
+	<dependency>
+	    <groupId>org.jboss.resteasy</groupId>
+	    <artifactId>resteasy-validator-provider-11</artifactId>
+	    <version>3.0.7.Final</version>
+	</dependency>
   	<dependency>
   		<groupId>ba.qss.framework</groupId>
   		<artifactId>framework</artifactId>

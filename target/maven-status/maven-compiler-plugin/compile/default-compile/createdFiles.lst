@@ -10,8 +10,6 @@ ba\qss\m2m\mw\api\GeographicBoundaryResource.class
 ba\qss\m2m\mw\api\PhysicalEnvTypeResource.class
 ba\qss\m2m\mw\api\DeviceTypeResource.class
 ba\qss\m2m\mw\api\ProfileMsisdnResource.class
-ba\qss\m2m\mw\api\MethodConstraintViolationExceptionMapper.class
-ba\qss\m2m\mw\api\MWApplication.class
 ba\qss\m2m\mw\api\DeviceInstanceStatusResource.class
 ba\qss\m2m\mw\api\MessageTypeResource.class
 ba\qss\m2m\mw\api\PartyResource.class

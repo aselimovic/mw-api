@@ -26,7 +26,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-//import org.jboss.resteasy.spi.validation.ValidateRequest;
 import org.slf4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +93,6 @@ public class BindingEntityResource {
 //    @Produces({"application/xml","application/json"})
 	// Integrating Bean Validation with JAX-RS in Java EE 6 » samaxes
 	// http://www.samaxes.com/2013/01/beanvalidation-with-jaxrs-in-javaee6/
-//	@ValidateRequest
 	public BindingEntityTO[] select(
 			// Context (Java EE 6)
 			// http://docs.oracle.com/javaee/6/api/javax/ws/rs/core/Context.html
@@ -227,7 +225,6 @@ public class BindingEntityResource {
 	
 	@POST
 	@Consumes("application/json")
-//	@ValidateRequest
 	public BindingEntityTO create(@Valid BindingEntityTO newBindingEntityTO) {
         BindingEntityDAO bindingEntityDAO = null;
         Object primaryColVal = null;

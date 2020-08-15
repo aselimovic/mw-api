@@ -95,7 +95,7 @@ public class MWApplication extends Application {
 		// register exception mappers
 		result.add(Node.class);
 		result.add(DAOExceptionMapper.class);
-		result.add(MethodConstraintViolationExceptionMapper.class);
+//		result.add(MethodConstraintViolationExceptionMapper.class);
 		
 		return result;
 	}

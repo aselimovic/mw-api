@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "name": "BindingEntity set",
+  "type": "array",
+  "items": {
+    "name": "BindingEntity",
+    "type": "object",
+    "properties": {
+      "bindingEntityId": { "type": "integer", "required": true },
+      "systemId": { "type": "string", "maxLength": 15 },
+      "password": { "type": "string", "maxLength": 8 },
+      "systemType": { "type": "string", "maxLength": 13 },
+      "description": { "type": "string", "maxLength": 255 }
+    }
+  }
+}

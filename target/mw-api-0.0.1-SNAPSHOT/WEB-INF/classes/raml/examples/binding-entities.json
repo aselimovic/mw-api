@@ -1,0 +1,23 @@
+[
+  {
+    "bindingEntityId": 1,
+    "systemId": "systemId1",
+    "password": "password1",
+    "systemType": "systemType1",
+    "description": "description1"
+  },
+  {
+    "bindingEntityId": 2,
+    "systemId": "systemId2",
+    "password": "password2",
+    "systemType": "systemType2",
+    "description": "description2"
+  },
+  {
+    "bindingEntityId": 3,
+    "systemId": "systemId3",
+    "password": "password3",
+    "systemType": "systemType3",
+    "description": "description3"
+  }
+]

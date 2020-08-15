@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>mw-api</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <context-param>
+  	<param-name>Razvoj</param-name>
+  	<param-value>razvoj@qss.ba</param-value>
+  </context-param>
+  
+  <!-- Overriding the @ApplicationPath annotation within web.xml. -->
+  <!--
+      Java Servlet 3.0 Final Release Specification - 12.2 Specification of
+      Mappings
+      http://download.oracle.com/otn-pub/jcp/servlet-3.0-fr-eval-oth-JSpec/servlet-3_0-final-spec.pdf
+  -->
+  <!--
+  <servlet-mapping>
+    <servlet-name>ba.qss.m2m.mw.api.MWApplication</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+  -->
+  
+  <!--
+      This servlet prints the contents of the StatusManager associated with the
+      current LoggerContext as an HTML table.
+  -->
+  <servlet>
+    <servlet-name>ViewStatusMessages</servlet-name>
+    <servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewStatusMessages</servlet-name>
+    <url-pattern>/lbClassicStatus</url-pattern>
+  </servlet-mapping>
+  
+<!-- TODO:
+  <listener>
+    <listener-class>ch.qos.logback.classic.selector.servlet.ContextDetachingSCL</listener-class>
+  </listener>
+-->
+  
+  <!--
+      Chapter 8: Mapped Diagnostic Context - MDCInsertingServletFilter
+      http://logback.qos.ch/manual/mdc.html#mis
+  -->
+  <!--
+  <filter>
+    <filter-name>MDCInsertingServletFilter</filter-name>
+    <filter-class>
+      ch.qos.logback.classic.helpers.MDCInsertingServletFilter
+    </filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>MDCInsertingServletFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  -->
+</web-app>

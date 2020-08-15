@@ -1,0 +1,89 @@
+#%RAML 0.8
+# RAML 0.8
+# http://raml.org/spec.html
+title: M2M Middleware API
+protocols: [ HTTP ]
+version: v1
+#baseUri: http://server/{companyName}/{apiPath}/{version}
+baseUri: http://mocksvc.mulesoft.com/mocks/57f0bcfd-a8cb-49bf-b19d-0389d4689827/{companyName}/{apiPath}/{version}
+baseUriParameters:
+#uriParameters: # uknown property uriParameters
+  companyName:
+    displayName: Company Name
+  apiPath:
+    displayName: API Path
+    enum: [ "m2m-mw" ]
+documentation:
+  - title: Naslov1
+    content: |
+      Tekst dokumenta
+# draft-zyp-json-schema-03 - JSON Schema: core definitions and terminology
+# http://tools.ietf.org/html/draft-zyp-json-schema-03
+schemas:
+  - BindingEntities: !include schemas/binding-entities.json
+  - BindingEntity: !include schemas/binding-entity.json
+traits:
+  - !include traits/paged.yaml
+/bindingEntities: # a top-level resource
+#/bindingEntities{mediaTypeExtension}:
+  displayName: Communication Channels
+  description: Opis1
+  get:
+    # Markdown Syntax Documentation
+    # http://daringfireball.net/projects/markdown/syntax
+    description: | # It is RECOMMENDED that all API definition methods include the description property.
+      Opis GET metode
+#    headers: # non-standard HTTP headers
+    # The GET method is accessible only through HTTPS.
+#    protocols: [ HTTPS ]
+    is: [ paged ]
+    # a method body
+    # TODO: Web Forms
+    # The schema key CANNOT be specified if a body's media type is application/x-www-form-urlencoded or multipart/form-data.
+#    body: # accepts input as either JSON or XML
+#      text/xml: !!null
+#      application/json: !!null  
+    responses:
+      200:
+        body:
+          application/json:
+            schema: BindingEntities
+            example: !include examples/binding-entities.json
+  # Create a new entry in the collection.
+  post:
+    description: |
+      Opis POST metode
+    body:
+      application/json:
+        schema: BindingEntity
+        example: !include examples/binding-entity.json
+    responses:
+      503:
+        description: |
+          Response descriptions are particularly useful for describing error conditions.
+  /{bindingEntityId}:
+    displayName: Binding Entity
+#    mediaTypeExtension:
+#      enum: [ .json, .xml ]
+#      description: Use .json to specify application/json or .xml to specify text/xml
+    uriParameters:
+      bindingEntityId:
+        displayName: Binding Entity ID
+        # For a URI parameter, the required attribute MAY be omitted, but its default value is 'true'.
+#        required: true
+        type: integer
+    get:
+      description: Opis GET metode
+      responses:
+        200:
+          body:
+            application/json:
+              schema: BindingEntity
+              example: !include examples/binding-entity.json
+    put:
+      description: Opis PUT metode
+      body:
+        application/json:
+          schema: BindingEntity
+    delete:
+      description: Opis DELETE metode

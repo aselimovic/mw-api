@@ -1,0 +1,14 @@
+<!--
+	3.4. Prevent a Module Being Implicitly Loaded
+	https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/6.1/html/Development_Guide/Prevent_a_Module_Being_Implicitly_Loaded.html
+	For a web application (WAR) add this file to the WEB-INF directory.
+	For an EJB archive (JAR) add it to the META-INF directory.
+--> 
+<jboss-deployment-structure>
+  <deployment>
+    <exclusions>
+      <module name="org.slf4j" />
+      <module name="org.slf4j.impl" />
+    </exclusions>
+  </deployment>
+</jboss-deployment-structure>

@@ -1,0 +1,90 @@
+<!--
+	debug
+		This debug attribute relates only to the status data, it does not affect
+		logback's logger levels.
+	scan
+		automatically reloading configuration file upon modification
+-->
+<configuration debug="true" scan="true" scanPeriod="60 seconds">
+  <!--
+      Setting the context name is a simple and straightforward method in order
+      to distinguish between multiple applications logging to the same target.
+  -->
+  <!--<contextName>myAppName</contextName>-->
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--
+        Correct values can be specified as c:/temp/test.log or alternatively as
+        c:\\temp\\test.log and you can decouple the location of the active log
+        file and the location of the archived log files.
+    -->
+    <file>myApp.log</file>
+    <!--
+        Support multiple-JVM writing to the same log file. The default value is
+        false. Prudent mode can be used in conjunction with RollingFileAppender
+        although some restrictions apply:
+        http://logback.qos.ch/manual/appenders.html#prudentWithRolling
+    -->
+    <!--<prudent>false</prudent>-->
+    <!--
+        My Eclipse Plugins & Java tools — Internationalization Cookbook
+        http://mihai-nita.net/java/
+    -->
+    
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!--
+          The automatic file compression feature is enabled if the value of the
+          fileNamePattern option ends with .gz or .zip.
+      -->
+      <fileNamePattern>myApp.%d{yyyy-MM-dd}.log.zip</fileNamePattern><!-- daily rollover -->
+
+      <!-- keep 30 days' worth of history -->
+      <maxHistory>30</maxHistory>
+      <!--<cleanHistoryOnStart>false</cleanHistoryOnStart>-->
+    </rollingPolicy>
+
+    <encoder><!--immediateFlush="true"-->
+      <pattern>%X{MSISDN} %date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern><!--%contextName-->
+      <outputPatternAsHeader>true</outputPatternAsHeader>
+    </encoder>
+  </appender>
+  
+  <!--
+      additivity
+          If the logger has its additivity flag set to false, its logging output
+          will not be sent to any appender attached higher in the hierarchy.
+  -->
+  <logger additivity="true" name="ba.qss.m2m.mw.api" level="INFO">
+    <appender-ref ref="FILE" />
+  </logger>
+
+    <!--
+        On a Windows host, if this property is set to true, then you should put
+        "org.fusesource.jansi:jansi:1.9" on the class path.
+        
+        [#LOGBACK-762] Jansi fails on x64 Windows 7 - QOS.ch JIRA
+        http://jira.qos.ch/browse/LOGBACK-762
+    -->
+    <!--<withJansi>true</withJansi>--><!-- ConsoleAppender property -->
+  
+  <!--
+      Next is a configuration file equivalent to the one established by
+      BasicConfigurator (if neither configuration file is found).
+  -->
+  <!--
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+  -->
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+  <!--
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  -->
+  <!-- The level attribute of the root level is set to DEBUG by default. -->
+  <!--
+  <root level="debug">
+    <appender-ref ref="STDOUT" />
+  </root>
+  -->
+</configuration>

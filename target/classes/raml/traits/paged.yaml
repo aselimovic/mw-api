@@ -1,0 +1,19 @@
+# Include external traits issue - RAML Forums
+# http://forums.raml.org/t/include-external-traits-issue/262/2
+paged:
+  usage: Describe how the trait should be used
+  queryParameters:
+    page:
+      displayName: Page
+      description: Specify the page that you want to retrieve
+      type: integer
+      default: 1
+      example: 1
+    pageSize:
+      displayName: Page Size
+      description: Specify the amount of items that will be retrieved per page
+      type: integer
+      minimum: 10
+      maximum: 100
+      default: 20
+      example: 20

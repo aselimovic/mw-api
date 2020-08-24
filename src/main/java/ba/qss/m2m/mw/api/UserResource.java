@@ -102,6 +102,29 @@ public class UserResource {
 		return userTO;
 	}
 	
+	@GET
+	@Path("user/{userId}")
+	public UserTO findUserByPrimaryKey(@PathParam("userName") String userName)
+			throws DAOException {
+        UserDAO userDAO = null;
+        UserTO userTO = null;
+
+        try {
+        	userDAO = OracleMWDAOFactory.getUserDAO();
+        	userTO = userDAO.findUserByUserName(1/*siteId*/, userName);
+        	// DAOException
+        	
+        	if (userTO == null) {
+        		throw new /*NotFoundException()*/WebApplicationException(Response.Status.NOT_FOUND);
+        	}
+        } catch (DAOException e) {
+        	logger.error(null, e);
+        	throw e; // Rethrow
+        }
+        
+		return userTO;
+	}	
+	
 	@POST
 	@Consumes("application/json")
 //	@ValidateRequest

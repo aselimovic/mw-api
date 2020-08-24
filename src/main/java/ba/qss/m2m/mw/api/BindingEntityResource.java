@@ -134,10 +134,10 @@ public class BindingEntityResource {
         // jboss7.x - Logback and Jboss 7 - don't work together? - Stack Overflow
         // http://stackoverflow.com/questions/9518687/logback-and-jboss-7-dont-work-together
         //Caused by: java.lang.ClassCastException: org.slf4j.impl.Slf4jLoggerFactory incompatible with ch.qos.logback.classic.LoggerContext
-        loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+//        loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         // Logback's internal status information can be very useful in
         // diagnosing logback-related problems. 
-        StatusPrinter.print(loggerContext);
+//        StatusPrinter.print(loggerContext);
         
         // SLF4J Error Codes
         // http://www.slf4j.org/codes.html#multiple_bindings

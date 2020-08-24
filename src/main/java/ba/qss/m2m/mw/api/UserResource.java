@@ -103,7 +103,7 @@ public class UserResource {
 	}
 	
 	@GET
-	@Path("findUserByUserName/{userName}")
+	@Path("user/{userName}")
 	public UserTO findUserByUserName(@PathParam("userName") String userName)
 			throws DAOException {
         UserDAO userDAO = null;

@@ -6,7 +6,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
-        <dependent-module archiveName="mwdao-1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mwdao/mwdao">
+        <dependent-module archiveName="mwdao-1.2.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mwdao/mwdao">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="mw-api"/>

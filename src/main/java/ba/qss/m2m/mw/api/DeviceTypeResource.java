@@ -67,8 +67,8 @@ public class DeviceTypeResource {
         LoggerContext loggerContext = null;
 
         
-        loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        StatusPrinter.print(loggerContext);
+        /*loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        StatusPrinter.print(loggerContext);*/
 
 		try {
            

@@ -51,6 +51,7 @@ public class MWApplication extends Application {
 		 * CHAPTER 14. Deployment and Integration
 		 */
 
+		result.add(AppResource.class);		
 		result.add(BindingEntityResource.class);
 		result.add(IPGatewayResource.class);
 		result.add(MessageTypeResource.class);

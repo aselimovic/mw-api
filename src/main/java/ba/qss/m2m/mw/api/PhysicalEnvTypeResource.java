@@ -61,8 +61,8 @@ public class PhysicalEnvTypeResource {
         IntValue rowCount = new IntValue(0);
         LoggerContext loggerContext = null;
 
-        loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        StatusPrinter.print(loggerContext);
+        /*loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        StatusPrinter.print(loggerContext);*/
 
 		try {
            

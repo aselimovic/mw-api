@@ -57,7 +57,7 @@ public class UserResource {
     		/*@Context UriInfo uriInfo
 			,*/
     		@QueryParam("filterExpression") String filterExpression 
-    		,@Pattern(regexp="[\\w\\s,]+") @Size(max=50) @DefaultValue("user_name ASC") @QueryParam("sort") String sort // XXX: Sort key expression: ORDER BY sin(i)
+    		,@Pattern(regexp="[.\\w\\s,]+") @Size(max=50) @DefaultValue("user_name ASC") @QueryParam("sort") String sort // XXX: Sort key expression: ORDER BY sin(i)
 			,@Min(value=0, message="{bindingEntity.sort.size}") @Max(100) @DefaultValue("0") @QueryParam("pageIndex") int pageIndex
 			,@Min(0) @Max(1000) @DefaultValue("20") @QueryParam("pageSize") int pageSize) {
 		UserDAO userDAO = null;

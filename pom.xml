@@ -155,7 +155,7 @@
   	<dependency>
   		<groupId>ba.qss.m2m</groupId>
   		<artifactId>mwdao</artifactId>
-  		<version>1.8</version>
+  		<version>1.9</version>
   	</dependency>
   	<dependency>
   		<groupId>org.slf4j</groupId>

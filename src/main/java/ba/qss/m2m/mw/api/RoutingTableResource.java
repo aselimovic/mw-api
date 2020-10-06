@@ -2,13 +2,18 @@ package ba.qss.m2m.mw.api;
 
 import java.util.List;
 
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -24,8 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import ba.qss.framework.IntValue;
 import ba.qss.framework.dataaccess.DAOException;
-import ba.qss.m2m.mw.dao.DeviceDAO;
-import ba.qss.m2m.mw.dao.DeviceTO;
 import ba.qss.m2m.mw.dao.OracleMWDAOFactory;
 import ba.qss.m2m.mw.dao.RoutingTableDAO;
 import ba.qss.m2m.mw.dao.RoutingTableTO;
@@ -91,22 +94,76 @@ public class RoutingTableResource {
 		return routingTableTO;
 	}
 	
+	@POST
+	@Consumes("application/json")
+//	@ValidateRequest
+	public RoutingTableTO create(@Valid RoutingTableTO newRoutingTableTO) {
+        RoutingTableDAO routingTableDAO = null;
+        Object primaryColVal = null;
+
+        try {
+        	routingTableDAO = OracleMWDAOFactory.getRoutingTableDAO();
+        	primaryColVal = routingTableDAO.create(newRoutingTableTO, RoutingTableDAO.INSERT_SQL);
+        	// DAOException
+        	
+        	newRoutingTableTO.setRoutingTableId(((Integer) primaryColVal).intValue());
+        	// ClassCastException
+        } catch (DAOException e) {
+        	logger.error("Error inserting data.", e);
+        	throw new WebApplicationException(e);
+        }
+		
+		return newRoutingTableTO;		
+	}
+	
 	@PUT
     public void update(RoutingTableTO routingTableTO) {
-
+		int sc = Response.Status.NO_CONTENT.getStatusCode();
 		RoutingTableDAO routingTableDAO = null;
+		
     	try {
     		routingTableDAO = OracleMWDAOFactory.getRoutingTableDAO();
-    		int result = routingTableDAO.update(routingTableTO, RoutingTableDAO.UPDATE_SQL);
-    		
+    		routingTableDAO.update(routingTableTO, RoutingTableDAO.UPDATE_SQL);
     	} catch (DAOException e) {
-    		logger.error("Error inserting data.", e);
-
+        	logger.error("Error updating data.", e);
+        	// Construct a new instance with a blank message and default HTTP
+        	// status code of 500        	
     		throw new WebApplicationException(e);
     	}
     	
-    	resp.setStatus(Response.Status.NO_CONTENT.getStatusCode());
-
+    	resp.setStatus(sc);
     }
 	
+	@DELETE
+	@Path("routingTable/{routingTableId}")
+	public void delete(@PathParam("routingTableId") int routingTableId) {
+		int sc = Response.Status.NO_CONTENT.getStatusCode();
+		RoutingTableDAO routingTableDAO = null;
+        RoutingTableTO routingTableTO = null;
+		
+        try {
+        	routingTableDAO = OracleMWDAOFactory.getRoutingTableDAO();
+        	routingTableTO = routingTableDAO.findRoutingTableByPrimaryKey(
+        			routingTableId);
+        	// DAOException
+        	
+        	if (routingTableTO != null) {
+        		routingTableDAO.delete(routingTableTO,
+        				RoutingTableDAO.DELETE_SQL);
+        		// OptimisticLockException, DAOException
+        	} else {
+        		// We are telling the client that the thing we want to delete is
+        		// already gone (410).
+        		sc = Response.Status.GONE.getStatusCode();
+        	}
+        } catch (OptimisticLockException e) {
+        	sc = Response.Status.GONE.getStatusCode();
+        	logger.error("Data shown on form couldn't be saved, because they are changed in the mean time or new version of data was saved by other user. Try to load form again and save the data.", e);
+        } catch (DAOException e) {
+        	logger.error(null, e);
+        	throw new WebApplicationException(e);
+        }
+
+		resp.setStatus(sc);
+	}
 }

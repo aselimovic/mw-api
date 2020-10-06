@@ -37,6 +37,7 @@ import ba.qss.framework.IntValue;
 import ba.qss.m2m.mw.dao.BindingEntityDAO;
 import ba.qss.m2m.mw.dao.BindingEntityTO;
 import ba.qss.m2m.mw.dao.OracleMWDAOFactory;
+import ba.qss.m2m.mw.dao.RoutingTableDAO;
 
 // Path (Java EE 6 )
 // http://docs.oracle.com/javaee/6/api/javax/ws/rs/Path.html
@@ -251,9 +252,21 @@ public class BindingEntityResource {
 	}
 	
 	@PUT
-	@Path("bindingEntity/{bindingEntityId}")
-	public void update(@PathParam("bindingEntityId") int bindingEntityId,
+	/*@Path("bindingEntity/{bindingEntityId}")*/
+	public void update(/*@PathParam("bindingEntityId") int bindingEntityId,*/
 			BindingEntityTO bindingEntityTO) {
+		BindingEntityDAO bindingEntityDAO = null;
+		
+    	try {
+    		bindingEntityDAO = OracleMWDAOFactory.getBindingEntityDAO();
+    		bindingEntityDAO.update(bindingEntityTO, BindingEntityDAO.UPDATE_SQL);
+    	} catch (DAOException e) {
+        	logger.error("Error updating data.", e);
+        	// Construct a new instance with a blank message and default HTTP
+        	// status code of 500        	
+    		throw new WebApplicationException(e);
+    	}		
+		
 		// RESTful Java with JAX-RS 2.0, Second Edition (O'Reilly Media) -
 		// Chapter 7: Server Responses and Exception Handling
 		//

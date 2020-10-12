@@ -2,17 +2,23 @@ package ba.qss.m2m.mw.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 //import org.jboss.resteasy.spi.validation.ValidateRequest;
@@ -26,6 +32,8 @@ import ba.qss.framework.dataaccess.UserDAO;
 import ba.qss.m2m.mw.dao.AppDAO;
 import ba.qss.m2m.mw.dao.AppTO;
 import ba.qss.m2m.mw.dao.OracleMWDAOFactory;
+import ba.qss.m2m.mw.dao.RoutingTableDAO;
+import ba.qss.m2m.mw.dao.RoutingTableTO;
 
 @Path("apps")
 @Produces("application/json")
@@ -33,6 +41,9 @@ public class AppResource {
 
     private static final String CLASS_NAME = AppResource.class.getName();
     public static final Logger logger = LoggerFactory.getLogger(CLASS_NAME);
+    
+    @Context
+    private HttpServletResponse resp;
     
     @GET
 //    @ValidateRequest
@@ -98,4 +109,44 @@ public class AppResource {
         
 		return appTO;
 	}
+	
+	@POST
+	@Consumes("application/json")
+//	@ValidateRequest
+	public AppTO create(@Valid AppTO newAppTO) {
+        AppDAO appDAO = null;
+        Object primaryColVal = null;
+
+        try {
+        	appDAO = OracleMWDAOFactory.getAppDAO();
+        	primaryColVal = appDAO.create(newAppTO, AppDAO.INSERT_SQL);
+        	// DAOException
+        	
+        	newAppTO.setAppId(((Integer) primaryColVal).intValue());
+        	// ClassCastException
+        } catch (DAOException e) {
+        	logger.error("Error inserting data.", e);
+        	throw new WebApplicationException(e);
+        }
+		
+		return newAppTO;		
+	}
+	
+	@PUT
+    public void update(AppTO appTO) {
+		int sc = Response.Status.NO_CONTENT.getStatusCode();
+		AppDAO appDAO = null;
+		
+    	try {
+    		appDAO = OracleMWDAOFactory.getAppDAO();
+    		appDAO.update(appTO, AppDAO.UPDATE_SQL);
+    	} catch (DAOException e) {
+        	logger.error("Error updating data.", e);
+        	// Construct a new instance with a blank message and default HTTP
+        	// status code of 500        	
+    		throw new WebApplicationException(e);
+    	}
+    	
+    	resp.setStatus(sc);
+    }
 }

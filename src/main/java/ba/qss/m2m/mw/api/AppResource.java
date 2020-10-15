@@ -2,6 +2,7 @@ package ba.qss.m2m.mw.api;
 
 import java.util.List;
 
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,6 +33,8 @@ import ba.qss.framework.dataaccess.TO;
 import ba.qss.framework.dataaccess.UserDAO;
 import ba.qss.m2m.mw.dao.AppDAO;
 import ba.qss.m2m.mw.dao.AppTO;
+import ba.qss.m2m.mw.dao.BindingEntityDAO;
+import ba.qss.m2m.mw.dao.BindingEntityTO;
 import ba.qss.m2m.mw.dao.OracleMWDAOFactory;
 import ba.qss.m2m.mw.dao.RoutingTableDAO;
 import ba.qss.m2m.mw.dao.RoutingTableTO;
@@ -149,4 +153,39 @@ public class AppResource {
     	
     	resp.setStatus(sc);
     }
+	
+	@DELETE
+	@Path("app/{appId}")
+	public void delete(@PathParam("appId") int appId) {
+		int sc = Response.Status.NO_CONTENT.getStatusCode();
+        AppDAO appDAO = null;
+        AppTO appTO = null;
+        TO criteria = null;
+		
+        try {
+        	appDAO = OracleMWDAOFactory.getAppDAO();
+        	
+        	criteria = new AppTO();
+        	((AppTO) criteria).setAppId(appId);
+        	appTO = (AppTO) appDAO.findByPrimaryKey(criteria, AppDAO.FIND_BY_PRIMARY_KEY_SQL);
+        	// DAOException
+        	
+        	if (appTO != null) {
+        		appDAO.delete(appTO, AppDAO.DELETE_SQL);
+        		// OptimisticLockException, DAOException
+        	} else {
+        		// We are telling the client that the thing we want to delete is
+        		// already gone (410).
+        		sc = Response.Status.GONE.getStatusCode();
+        	}
+        } catch (OptimisticLockException e) {
+        	sc = Response.Status.GONE.getStatusCode();
+        	logger.error("Data shown on form couldn't be saved, because they are changed in the mean time or new version of data was saved by other user. Try to load form again and save the data.", e);
+        } catch (DAOException e) {
+        	logger.error(null, e);
+        	throw new WebApplicationException(e);
+        }
+
+		resp.setStatus(sc);
+	}	
 }

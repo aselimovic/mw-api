@@ -36,6 +36,8 @@ import ba.qss.framework.dataaccess.UserTO;
 import ba.qss.m2m.mw.dao.BindingEntityDAO;
 import ba.qss.m2m.mw.dao.BindingEntityTO;
 import ba.qss.m2m.mw.dao.OracleMWDAOFactory;
+import ba.qss.m2m.mw.dao.ProfileUserDAO;
+import ba.qss.m2m.mw.dao.ProfileUserTO;
 import ba.qss.m2m.mw.dao.RoutingTableDAO;
 import ba.qss.m2m.mw.dao.RoutingTableTO;
 
@@ -128,20 +130,44 @@ public class UserResource {
 		return userTO;
 	}	
 	
+	public class UserExTO extends UserTO {
+		private int profileId;
+		
+		// getters
+		public int getProfileId() { return profileId; }
+		
+		// setters
+		public void setProfileId(int profileId) { this.profileId = profileId; }		
+	}
+	
 	@POST
 	@Consumes("application/json")
 //	@ValidateRequest
-	public UserTO create(@Valid UserTO newUserTO) {
+	public UserExTO create(@Valid UserExTO newUserTO) {
         UserDAO userDAO = null;
         Object primaryColVal = null;
-
+    	ProfileUserDAO profileUserDAO = null;
+		List<ProfileUserTO> profileUsers = null;
+		ProfileUserTO criteria = new ProfileUserTO();
+        IntValue rowCount = new IntValue(0);
+        
         try {
         	userDAO = OracleMWDAOFactory.getUserDAO();
-        	primaryColVal = userDAO.create(newUserTO, UserDAO.INSERT_SQL);
+        	primaryColVal = userDAO.create((UserTO)newUserTO, UserDAO.INSERT_SQL);
         	// DAOException
         	
         	newUserTO.setUserId(((Integer) primaryColVal).intValue());
         	// ClassCastException
+        	
+			profileUserDAO = OracleMWDAOFactory.getProfileUserDAO();
+			profileUsers = (List<ProfileUserTO>) (List) profileUserDAO.select(
+                    criteria, ProfileUserDAO.SELECT_SQL_LIST,
+                    " WHERE \"USER\".user_id=" + newUserTO.getUserId(), null, 0, 20,
+                    rowCount);
+			
+			if ((profileUsers != null) && (profileUsers.size() != 0)) {
+				newUserTO.setProfileId(profileUsers.get(0).getProfileId());
+			}
         } catch (DAOException e) {
         	logger.error("Error inserting data.", e);
         	throw new WebApplicationException(e);

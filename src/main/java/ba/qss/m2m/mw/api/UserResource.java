@@ -133,14 +133,14 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 //	@ValidateRequest
-	public UserExTO create(@Valid UserExTO newUserExTO) {
+	public UserExTO create(@Valid UserTO newUserTO) {
         UserDAO userDAO = null;
         Object primaryColVal = null;
     	ProfileUserDAO profileUserDAO = null;
 		List<ProfileUserTO> profileUsers = null;
 		ProfileUserTO criteria = new ProfileUserTO();
         IntValue rowCount = new IntValue(0);
-        UserTO newUserTO = (UserTO)newUserExTO;
+        UserExTO newUserExTO = null;
         
         try {
         	userDAO = OracleMWDAOFactory.getUserDAO();
@@ -155,6 +155,8 @@ public class UserResource {
                     criteria, ProfileUserDAO.SELECT_SQL_LIST,
                     " WHERE \"USER\".user_id=" + newUserTO.getUserId(), null, 0, 20,
                     rowCount);
+			
+			newUserExTO = (UserExTO)newUserTO;
 			
 			if ((profileUsers != null) && (profileUsers.size() != 0)) {
 				newUserExTO.setProfileId(profileUsers.get(0).getProfileId());

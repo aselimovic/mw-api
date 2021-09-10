@@ -5,15 +5,14 @@ import javax.persistence.Column;
 import ba.qss.framework.dataaccess.UserTO;
 
 public class UserExTO extends UserTO {
-	private int profileId;
+	private Integer profileId;
 	
 	// getters
-	public int getProfileId() { return profileId; }
+	public Integer getProfileId() { return profileId; }
 	
 	// setters
-	public void setProfileId(int profileId) { this.profileId = profileId; }
+	public void setProfileId(Integer profileId) { this.profileId = profileId; }
 	
 	public UserExTO() { 
-		 super();
 	}
 }

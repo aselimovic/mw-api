@@ -137,7 +137,11 @@ public class UserResource {
 		public int getProfileId() { return profileId; }
 		
 		// setters
-		public void setProfileId(int profileId) { this.profileId = profileId; }		
+		public void setProfileId(int profileId) { this.profileId = profileId; }
+		
+		public UserExTO() { 
+			 super();
+		}
 	}
 	
 	@POST

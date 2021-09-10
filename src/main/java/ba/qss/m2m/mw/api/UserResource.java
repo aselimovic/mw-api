@@ -156,7 +156,16 @@ public class UserResource {
                     " WHERE u.user_id=" + newUserTO.getUserId(), null, 0, 20,
                     rowCount);
 			
-			newUserExTO = (UserExTO)newUserTO;
+			newUserExTO = new UserExTO();
+			newUserExTO.setDefaultTabId(newUserTO.getDefaultTabId());
+			newUserExTO.setEmail(newUserTO.getEmail());
+			newUserExTO.setIsApproved(newUserTO.getIsApproved());
+			newUserExTO.setOrganizationName(newUserTO.getOrganizationName());
+			newUserExTO.setPartnerId(newUserTO.getPartnerId());
+			newUserExTO.setSiteId(newUserTO.getSiteId());
+			newUserExTO.setUserId(newUserTO.getUserId());
+			newUserExTO.setUserName(newUserTO.getUserName());
+			newUserExTO.setUserRoles(newUserTO.getUserRoles());
 			
 			if ((profileUsers != null) && (profileUsers.size() != 0)) {
 				newUserExTO.setProfileId(profileUsers.get(0).getProfileId());

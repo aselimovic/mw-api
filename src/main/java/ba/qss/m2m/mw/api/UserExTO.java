@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import ba.qss.framework.dataaccess.UserTO;
 
 public class UserExTO extends UserTO {
-	@Column(name="profile_id", insertable=false, updatable=false)	
 	private int profileId;
 	
 	// getters

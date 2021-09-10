@@ -133,17 +133,18 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 //	@ValidateRequest
-	public UserExTO create(@Valid UserExTO newUserTO) {
+	public UserExTO create(@Valid UserExTO newUserExTO) {
         UserDAO userDAO = null;
         Object primaryColVal = null;
     	ProfileUserDAO profileUserDAO = null;
 		List<ProfileUserTO> profileUsers = null;
 		ProfileUserTO criteria = new ProfileUserTO();
         IntValue rowCount = new IntValue(0);
+        UserTO newUserTO = (UserTO)newUserExTO;
         
         try {
         	userDAO = OracleMWDAOFactory.getUserDAO();
-        	primaryColVal = userDAO.create((UserTO)newUserTO, UserDAO.INSERT_SQL);
+        	primaryColVal = userDAO.create(newUserTO, UserDAO.INSERT_SQL);
         	// DAOException
         	
         	newUserTO.setUserId(((Integer) primaryColVal).intValue());
@@ -156,14 +157,14 @@ public class UserResource {
                     rowCount);
 			
 			if ((profileUsers != null) && (profileUsers.size() != 0)) {
-				newUserTO.setProfileId(profileUsers.get(0).getProfileId());
+				newUserExTO.setProfileId(profileUsers.get(0).getProfileId());
 			}
         } catch (DAOException e) {
         	logger.error("Error inserting data.", e);
         	throw new WebApplicationException(e);
         }
         
-		return newUserTO;
+		return newUserExTO;
 	}
 	
 	@PUT

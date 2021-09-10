@@ -130,20 +130,6 @@ public class UserResource {
 		return userTO;
 	}	
 	
-	public class UserExTO extends UserTO {
-		private int profileId;
-		
-		// getters
-		public int getProfileId() { return profileId; }
-		
-		// setters
-		public void setProfileId(int profileId) { this.profileId = profileId; }
-		
-		public UserExTO() { 
-			 super();
-		}
-	}
-	
 	@POST
 	@Consumes("application/json")
 //	@ValidateRequest
@@ -240,5 +226,5 @@ public class UserResource {
         }
 
 		resp.setStatus(sc);
-	}	
+	}
 }

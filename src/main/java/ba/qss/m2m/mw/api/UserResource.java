@@ -153,7 +153,7 @@ public class UserResource {
 			profileUserDAO = OracleMWDAOFactory.getProfileUserDAO();
 			profileUsers = (List<ProfileUserTO>) (List) profileUserDAO.select(
                     criteria, ProfileUserDAO.SELECT_SQL_LIST,
-                    " WHERE \"USER\".user_id=" + newUserTO.getUserId(), null, 0, 20,
+                    " WHERE u.user_id=" + newUserTO.getUserId(), null, 0, 20,
                     rowCount);
 			
 			newUserExTO = (UserExTO)newUserTO;
